@@ -6,16 +6,16 @@ $(document).ready(function () {
 	    inputMessageSubmit = $("#inputMessageSubmit"),
 	    messageList = $("#message-list"),
 	    onlineUsersList = $("#onlineUsers"),
-	    UserName = $("#UserName"),
-	    ControlLoc = $("#control"),
-	    login = $("#login"),
-	    leave = $("#leave"),
+	    ATCUserName = $("#ATCUserName"),
+	    ATCControlLoc = $("#ATCcontrol"),
+	    ATClogin = $("#ATClogin"),
+	    ATCleave = $("#leave"),
 	    LoginScreen = $(".overlay"),
-	    userlist = [],
-	    pub_key = 'pub-c-3a17c6cc-155e-4808-af3f-eb201fb7cc35',
-	    sub_key = 'sub-c-43d67b00-538d-11e7-af22-02ee2ddab7fe',
-		username,
-		ctrlname;
+	    ATCuserlist = [],
+	    pub_key = 'pub-c-578b72c9-0ca2-4429-b7d4-313bbdf9b335',
+	    sub_key = 'sub-c-471f5e36-e1ef-11e6-ac69-0619f8945a4f',
+		ATCusername,
+		ATCctrlname;
 
 	var weather_states = {
 				"Tornado":0,"Tropical Storm":1,"Hurricane":2,"Strong Storms":3,
@@ -55,37 +55,37 @@ $(document).ready(function () {
 	function message_listing(m){
 
 		if(m.command == "join"){
-			userlist.push(m.user);
+			ATCuserlist.push(m.user);
 
 			var userData = {
-				_UserIcon : Math.floor(Math.random() * 8) + 1,
-				_UserName : m.user,
-				_Location : m.location
+				ATC_UserIcon : Math.floor(Math.random() * 8) + 1,
+				ATC_UserName : m.user,
+				ATC_Location : m.ATClocation
 			}
-			if(userlist.length == 1){
-				var userTemplate = ['<li class="media clearList" id={{_UserName}}>',
+			if(ATCuserlist.length == 1){
+				var userTemplate = ['<li class="media clearList" id={{ATC_UserName}}>',
 	                                '<div class="media-body" style="background:#d5e5e1">',
 	                                    '<div class="media">',
 	                                        '<a class="pull-left" href="#">',
-	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{_UserIcon}}.png" />',
+	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{ATC_UserIcon}}.png" />',
 	                                        '</a>',
 	                                        '<div class="media-body" >',
-	                                            '<h5>{{_UserName}}</h5>',
-	                                            '<small class="text-muted" style="text-transform: uppercase;">-{{_Location}}</small>',
+	                                            '<h5>{{ATC_UserName}}</h5>',
+	                                            '<small class="text-muted" style="text-transform: uppercase;">ATC-{{ATC_Location}}</small>',
 	                                        '</div>',
 	                                    '</div>',
 	                                '</div>',
 	                            '</li>'].join("\n");
 			}else{
-				var userTemplate = ['<li class="media clearList" id={{_UserName}}>',
+				var userTemplate = ['<li class="media clearList" id={{ATC_UserName}}>',
 	                                '<div class="media-body">',
 	                                    '<div class="media">',
 	                                        '<a class="pull-left" href="#">',
-	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{_UserIcon}}.png" />',
+	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{ATC_UserIcon}}.png" />',
 	                                        '</a>',
 	                                        '<div class="media-body" >',
-	                                            '<h5>{{_UserName}}</h5>',
-	                                            '<small class="text-muted" style="text-transform: uppercase;">-{{_Location}}</small>',
+	                                            '<h5>{{ATC_UserName}}</h5>',
+	                                            '<small class="text-muted" style="text-transform: uppercase;">ATC-{{ATC_Location}}</small>',
 	                                        '</div>',
 	                                    '</div>',
 	                                '</div>',
@@ -106,30 +106,30 @@ $(document).ready(function () {
 				}
 			}
 			var userData = {
-					_UserIcon : Math.floor(Math.random() * 8) + 1,
-					_UserName : m.user,
-					_Location : m.location
+					ATC_UserIcon : Math.floor(Math.random() * 8) + 1,
+					ATC_UserName : m.user,
+					ATC_Location : m.ATClocation
 				}
 			var count = 0;
-			for (var i = 0; i < userlist.length; i++) {
-				if (userlist[i] !== m.user){
+			for (var i = 0; i < ATCuserlist.length; i++) {
+				if (ATCuserlist[i] !== m.user){
 					count++;
 				}
 				else{
 					break;
 				}
 			};
-			if(count == userlist.length){
-				userlist.push(m.user);
-				var userTemplate = ['<li class="media clearList" id={{_UserName}}>',
+			if(count == ATCuserlist.length){
+				ATCuserlist.push(m.user);
+				var userTemplate = ['<li class="media clearList" id={{ATC_UserName}}>',
                                 '<div class="media-body">',
                                     '<div class="media">',
                                         '<a class="pull-left" href="#">',
-                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{_UserIcon}}.png" />',
+                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{ATC_UserIcon}}.png" />',
                                         '</a>',
                                         '<div class="media-body" >',
-                                            '<h5>{{_UserName}}</h5>',
-                                            '<small class="text-muted" style="text-transform: uppercase;">-{{_Location}}</small>',
+                                            '<h5>{{ATC_UserName}}</h5>',
+                                            '<small class="text-muted" style="text-transform: uppercase;">ATC-{{ATC_Location}}</small>',
                                         '</div>',
                                     '</div>',
                                 '</div>',
@@ -140,9 +140,9 @@ $(document).ready(function () {
 			}
 			
 			var messageData = {
-				_UserIcon 	: Math.floor(Math.random() * 8) + 1,
+				ATC_UserIcon 	: Math.floor(Math.random() * 8) + 1,
 				userName 		: m.user,
-				userlocation : m.location,
+				userATClocation : m.ATClocation,
 		        userMessageBody : m.userMessage,
 		        weatherIcon 	: weatherStatusIcon,
 		        weatherReport 	: m.weatherStatus
@@ -152,12 +152,12 @@ $(document).ready(function () {
 	                            '<div class="media-body">',
 	                                '<div class="media">',
 	                                    '<a class="pull-left" href="#">',
-	                                        '<img class="media-object img-circle" src="assets/img/userImages/{{_UserIcon}}.png" alt="man1" height="40" width="40" />',
+	                                        '<img class="media-object img-circle" src="assets/img/userImages/{{ATC_UserIcon}}.png" alt="man1" height="40" width="40" />',
 	                                    	'<p style="text-align:center;">{{userName}}</p>',
 	                                    '</a>',
 	                                    '<div class="media-body" >{{userMessageBody}}',
 	                                       ' <br />',
-	                                       '<small class="text-muted" style="text-transform: uppercase;"> -{{userlocation}} <img height="30" width="30" src="assets/img/weather/png/{{weatherIcon}}.png"> {{weatherReport}} </small>',
+	                                       '<small class="text-muted" style="text-transform: uppercase;"> ATC-{{userATClocation}} <img height="30" width="30" src="assets/img/weather/png/{{weatherIcon}}.png"> {{weatherReport}} </small>',
 	                                        '<hr />',
 	                                    '</div>',
 	                                '</div>',
@@ -185,8 +185,8 @@ $(document).ready(function () {
 		inputMessageSubmit.click(function (event) {
 	        var chatMessage = {
 	        					"command":"message",
-	        					"user":username,
-	        					"location":ctrlname,
+	        					"user":ATCusername,
+	        					"ATClocation":ATCctrlname,
 	        					"userMessage":inputMessage.val()
 	        				}
 	        if(inputMessage.val().length != 0){
@@ -196,30 +196,30 @@ $(document).ready(function () {
 	    });
 	};
 
-	login.on( "click", function() {
+	ATClogin.on( "click", function() {
 		pub_subscribe();
 		setTimeout(function(){
-			var loginData = {"command":"join","user":UserName.val(),"location":ControlLoc.val()}
-				username = UserName.val();
-				ctrlname = ControlLoc.val();
+			var loginData = {"command":"join","user":ATCUserName.val(),"ATClocation":ATCControlLoc.val()}
+				ATCusername = ATCUserName.val();
+				ATCctrlname = ATCControlLoc.val();
 	        	pub_publish(loginData);
 	        	LoginScreen.fadeOut(1000);
 	        	setTimeout(function(){
 	        		LoginScreen.css("z-index","-10");
-	        		UserName.val(""),
-	        		ControlLoc.val("Select Your  Location")
+	        		ATCUserName.val(""),
+	        		ATCControlLoc.val("Select Your ATC Location")
 	        	},1000);
-        	document.getElementById('chat-header-username').innerHTML = username;
-        	document.getElementById('chat-header-name').innerHTML = " - -"+ctrlname;
+        	document.getElementById('chat-header-username').innerHTML = ATCusername;
+        	document.getElementById('chat-header-atcname').innerHTML = " - ATC-"+ATCctrlname;
 		},1000);
 	});
 
-	leave.on( "click", function() {
-		var leaveData = {"command":"leave","user":username,"location":ctrlname};
+	ATCleave.on( "click", function() {
+		var leaveData = {"command":"leave","user":ATCusername,"ATClocation":ATCctrlname};
 		    pub_publish(leaveData);
 		    $( "li" ).remove(".clearMsgList");
 		    $( "li" ).remove(".clearList");
-		    userlist.length = 0;
+		    ATCuserlist.length = 0;
 		    LoginScreen.css("z-index","10");
 		    LoginScreen.fadeIn(1000);
 		    pubnub.unsubscribe({
