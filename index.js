@@ -6,16 +6,16 @@ $(document).ready(function () {
 	    inputMessageSubmit = $("#inputMessageSubmit"),
 	    messageList = $("#message-list"),
 	    onlineUsersList = $("#onlineUsers"),
-	    ATCUserName = $("#ATCUserName"),
-	    ATCControlLoc = $("#ATCcontrol"),
-	    ATClogin = $("#ATClogin"),
-	    ATCleave = $("#leave"),
+	    UserName = $("#UserName"),
+	    ControlLoc = $("#control"),
+	    login = $("#login"),
+	    leave = $("#leave"),
 	    LoginScreen = $(".overlay"),
-	    ATCuserlist = [],
+	    userlist = [],
 	    pub_key = 'pub-c-3a17c6cc-155e-4808-af3f-eb201fb7cc35',
 	    sub_key = 'sub-c-43d67b00-538d-11e7-af22-02ee2ddab7fe',
-		ATCusername,
-		ATCctrlname;
+		username,
+		ctrlname;
 
 	var weather_states = {
 				"Tornado":0,"Tropical Storm":1,"Hurricane":2,"Strong Storms":3,
@@ -55,37 +55,37 @@ $(document).ready(function () {
 	function message_listing(m){
 
 		if(m.command == "join"){
-			ATCuserlist.push(m.user);
+			userlist.push(m.user);
 
 			var userData = {
-				ATC_UserIcon : Math.floor(Math.random() * 8) + 1,
-				ATC_UserName : m.user,
-				ATC_Location : m.ATClocation
+				_UserIcon : Math.floor(Math.random() * 8) + 1,
+				_UserName : m.user,
+				_Location : m.location
 			}
-			if(ATCuserlist.length == 1){
-				var userTemplate = ['<li class="media clearList" id={{ATC_UserName}}>',
+			if(userlist.length == 1){
+				var userTemplate = ['<li class="media clearList" id={{_UserName}}>',
 	                                '<div class="media-body" style="background:#d5e5e1">',
 	                                    '<div class="media">',
 	                                        '<a class="pull-left" href="#">',
-	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{ATC_UserIcon}}.png" />',
+	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{_UserIcon}}.png" />',
 	                                        '</a>',
 	                                        '<div class="media-body" >',
-	                                            '<h5>{{ATC_UserName}}</h5>',
-	                                            '<small class="text-muted" style="text-transform: uppercase;">ATC-{{ATC_Location}}</small>',
+	                                            '<h5>{{_UserName}}</h5>',
+	                                            '<small class="text-muted" style="text-transform: uppercase;">-{{_Location}}</small>',
 	                                        '</div>',
 	                                    '</div>',
 	                                '</div>',
 	                            '</li>'].join("\n");
 			}else{
-				var userTemplate = ['<li class="media clearList" id={{ATC_UserName}}>',
+				var userTemplate = ['<li class="media clearList" id={{_UserName}}>',
 	                                '<div class="media-body">',
 	                                    '<div class="media">',
 	                                        '<a class="pull-left" href="#">',
-	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{ATC_UserIcon}}.png" />',
+	                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{_UserIcon}}.png" />',
 	                                        '</a>',
 	                                        '<div class="media-body" >',
-	                                            '<h5>{{ATC_UserName}}</h5>',
-	                                            '<small class="text-muted" style="text-transform: uppercase;">ATC-{{ATC_Location}}</small>',
+	                                            '<h5>{{_UserName}}</h5>',
+	                                            '<small class="text-muted" style="text-transform: uppercase;">-{{_Location}}</small>',
 	                                        '</div>',
 	                                    '</div>',
 	                                '</div>',
@@ -106,30 +106,30 @@ $(document).ready(function () {
 				}
 			}
 			var userData = {
-					ATC_UserIcon : Math.floor(Math.random() * 8) + 1,
-					ATC_UserName : m.user,
-					ATC_Location : m.ATClocation
+					_UserIcon : Math.floor(Math.random() * 8) + 1,
+					_UserName : m.user,
+					_Location : m.location
 				}
 			var count = 0;
-			for (var i = 0; i < ATCuserlist.length; i++) {
-				if (ATCuserlist[i] !== m.user){
+			for (var i = 0; i < userlist.length; i++) {
+				if (userlist[i] !== m.user){
 					count++;
 				}
 				else{
 					break;
 				}
 			};
-			if(count == ATCuserlist.length){
-				ATCuserlist.push(m.user);
-				var userTemplate = ['<li class="media clearList" id={{ATC_UserName}}>',
+			if(count == userlist.length){
+				userlist.push(m.user);
+				var userTemplate = ['<li class="media clearList" id={{_UserName}}>',
                                 '<div class="media-body">',
                                     '<div class="media">',
                                         '<a class="pull-left" href="#">',
-                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{ATC_UserIcon}}.png" />',
+                                            '<img class="media-object img-circle" style="max-height:40px;" src="assets/img/userImages/{{_UserIcon}}.png" />',
                                         '</a>',
                                         '<div class="media-body" >',
-                                            '<h5>{{ATC_UserName}}</h5>',
-                                            '<small class="text-muted" style="text-transform: uppercase;">ATC-{{ATC_Location}}</small>',
+                                            '<h5>{{_UserName}}</h5>',
+                                            '<small class="text-muted" style="text-transform: uppercase;">-{{_Location}}</small>',
                                         '</div>',
                                     '</div>',
                                 '</div>',
@@ -140,9 +140,9 @@ $(document).ready(function () {
 			}
 			
 			var messageData = {
-				ATC_UserIcon 	: Math.floor(Math.random() * 8) + 1,
+				_UserIcon 	: Math.floor(Math.random() * 8) + 1,
 				userName 		: m.user,
-				userATClocation : m.ATClocation,
+				userlocation : m.location,
 		        userMessageBody : m.userMessage,
 		        weatherIcon 	: weatherStatusIcon,
 		        weatherReport 	: m.weatherStatus
@@ -152,12 +152,12 @@ $(document).ready(function () {
 	                            '<div class="media-body">',
 	                                '<div class="media">',
 	                                    '<a class="pull-left" href="#">',
-	                                        '<img class="media-object img-circle" src="assets/img/userImages/{{ATC_UserIcon}}.png" alt="man1" height="40" width="40" />',
+	                                        '<img class="media-object img-circle" src="assets/img/userImages/{{_UserIcon}}.png" alt="man1" height="40" width="40" />',
 	                                    	'<p style="text-align:center;">{{userName}}</p>',
 	                                    '</a>',
 	                                    '<div class="media-body" >{{userMessageBody}}',
 	                                       ' <br />',
-	                                       '<small class="text-muted" style="text-transform: uppercase;"> ATC-{{userATClocation}} <img height="30" width="30" src="assets/img/weather/png/{{weatherIcon}}.png"> {{weatherReport}} </small>',
+	                                       '<small class="text-muted" style="text-transform: uppercase;"> -{{userlocation}} <img height="30" width="30" src="assets/img/weather/png/{{weatherIcon}}.png"> {{weatherReport}} </small>',
 	                                        '<hr />',
 	                                    '</div>',
 	                                '</div>',
@@ -185,8 +185,8 @@ $(document).ready(function () {
 		inputMessageSubmit.click(function (event) {
 	        var chatMessage = {
 	        					"command":"message",
-	        					"user":ATCusername,
-	        					"ATClocation":ATCctrlname,
+	        					"user":username,
+	        					"location":ctrlname,
 	        					"userMessage":inputMessage.val()
 	        				}
 	        if(inputMessage.val().length != 0){
@@ -196,30 +196,30 @@ $(document).ready(function () {
 	    });
 	};
 
-	ATClogin.on( "click", function() {
+	login.on( "click", function() {
 		pub_subscribe();
 		setTimeout(function(){
-			var loginData = {"command":"join","user":ATCUserName.val(),"ATClocation":ATCControlLoc.val()}
-				ATCusername = ATCUserName.val();
-				ATCctrlname = ATCControlLoc.val();
+			var loginData = {"command":"join","user":UserName.val(),"location":ControlLoc.val()}
+				username = UserName.val();
+				ctrlname = ControlLoc.val();
 	        	pub_publish(loginData);
 	        	LoginScreen.fadeOut(1000);
 	        	setTimeout(function(){
 	        		LoginScreen.css("z-index","-10");
-	        		ATCUserName.val(""),
-	        		ATCControlLoc.val("Select Your ATC Location")
+	        		UserName.val(""),
+	        		ControlLoc.val("Select Your  Location")
 	        	},1000);
-        	document.getElementById('chat-header-username').innerHTML = ATCusername;
-        	document.getElementById('chat-header-atcname').innerHTML = " - ATC-"+ATCctrlname;
+        	document.getElementById('chat-header-username').innerHTML = username;
+        	document.getElementById('chat-header-name').innerHTML = " - -"+ctrlname;
 		},1000);
 	});
 
-	ATCleave.on( "click", function() {
-		var leaveData = {"command":"leave","user":ATCusername,"ATClocation":ATCctrlname};
+	leave.on( "click", function() {
+		var leaveData = {"command":"leave","user":username,"location":ctrlname};
 		    pub_publish(leaveData);
 		    $( "li" ).remove(".clearMsgList");
 		    $( "li" ).remove(".clearList");
-		    ATCuserlist.length = 0;
+		    userlist.length = 0;
 		    LoginScreen.css("z-index","10");
 		    LoginScreen.fadeIn(1000);
 		    pubnub.unsubscribe({
